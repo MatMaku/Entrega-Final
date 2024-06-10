@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7323f35df82ffbf409ea526a3e36f6e1
+guid: 670352bbd376cb144bb136ec03210a2a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 164
+  spritePixelsToUnits: 24
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -70,7 +70,7 @@ TextureImporter:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
-    resizeAlgorithm: 1
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 2
     compressionQuality: 50
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Personaje Alto Pixel Art Idle_0
+      name: Character_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 570
-        height: 750
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -111,20 +111,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 41ef2374fa746604c938977d62975b8a
-      internalID: 229706929
+      spriteID: d33a738403b99514ea0aa35f855e4fa2
+      internalID: 256727207
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Personaje Alto Pixel Art Idle_1
+      name: Character_1
       rect:
         serializedVersion: 2
-        x: 570
+        x: 128
         y: 0
-        width: 570
-        height: 750
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,20 +132,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: df695398a365045479d2f5601d89500a
-      internalID: -218057727
+      spriteID: e43f1a741d52a034d85f515e45eef267
+      internalID: -625507798
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Personaje Alto Pixel Art Idle_2
+      name: Character_2
       rect:
         serializedVersion: 2
-        x: 1140
+        x: 256
         y: 0
-        width: 570
-        height: 750
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,20 +153,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f7276bea88c207345bc5ea7853ee120d
-      internalID: -138441289
+      spriteID: 2ea62233622523f49a187177a3055f2b
+      internalID: -1334641413
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Personaje Alto Pixel Art Idle_3
+      name: Character_3
       rect:
         serializedVersion: 2
-        x: 1710
+        x: 384
         y: 0
-        width: 570
-        height: 750
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,92 +174,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7b4caeafc91a9184dad9151e8ea2667f
-      internalID: 404656998
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Personaje Alto Pixel Art Idle_4
-      rect:
-        serializedVersion: 2
-        x: 2280
-        y: 0
-        width: 570
-        height: 750
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4e09230d0d695e34997901c52bffa595
-      internalID: -1408485061
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Personaje Alto Pixel Art Idle_5
-      rect:
-        serializedVersion: 2
-        x: 2850
-        y: 0
-        width: 570
-        height: 750
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 40d3f7332ea425d4caf0da4dac0670e6
-      internalID: 1009829632
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Personaje Alto Pixel Art Idle_6
-      rect:
-        serializedVersion: 2
-        x: 3420
-        y: 0
-        width: 570
-        height: 750
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: aea9e27209ac38a4d99b5f907cbab7e0
-      internalID: -401139156
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Personaje Alto Pixel Art Idle_7
-      rect:
-        serializedVersion: 2
-        x: 3990
-        y: 0
-        width: 570
-        height: 750
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0495473facb75c44482972933a0c4bea
-      internalID: 2013815405
+      spriteID: 646b55163d53a5e4087acab4305d3c9e
+      internalID: -1861875738
       vertices: []
       indices: 
       edges: []
@@ -275,14 +191,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Personaje Alto Pixel Art Idle_0: 229706929
-      Personaje Alto Pixel Art Idle_1: -218057727
-      Personaje Alto Pixel Art Idle_2: -138441289
-      Personaje Alto Pixel Art Idle_3: 404656998
-      Personaje Alto Pixel Art Idle_4: -1408485061
-      Personaje Alto Pixel Art Idle_5: 1009829632
-      Personaje Alto Pixel Art Idle_6: -401139156
-      Personaje Alto Pixel Art Idle_7: 2013815405
+      Character_0: 256727207
+      Character_1: -625507798
+      Character_2: -1334641413
+      Character_3: -1861875738
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

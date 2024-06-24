@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Controller_Player : MonoBehaviour
 {
-    public float Speed = 1f;
+    public float Velocidad = 1f;
+    public float RangoDisparo = 10f;
 
     private bool Apuntando = false;
     private bool Disparando = false;
@@ -14,6 +16,9 @@ public class Controller_Player : MonoBehaviour
     private SpriteRenderer SpriteRenderer;
     private Animator Animator;
     private Vector2 MoveInput;
+
+    public Transform PuntoDisparo;
+    public GameObject EfectoImpacto;
 
     void Start()
     {
@@ -30,9 +35,10 @@ public class Controller_Player : MonoBehaviour
             Apuntando = true;
             SePuedeMover = false;
 
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButtonDown("Fire1") && !Disparando)
             {
                 Disparando = true;
+                Disparo();
                 StartCoroutine(ShootWait());
             }
         }
@@ -64,7 +70,34 @@ public class Controller_Player : MonoBehaviour
 
     private void Movimiento()
     {
-        Rigidbody2D.MovePosition(Rigidbody2D.position + MoveInput * Speed * Time.fixedDeltaTime);
+        Rigidbody2D.MovePosition(Rigidbody2D.position + MoveInput * Velocidad * Time.fixedDeltaTime);
+    }
+
+    private void Disparo()
+    {
+        RaycastHit2D raycastHit2D = Physics2D.Raycast(PuntoDisparo.position, PuntoDisparo.right, RangoDisparo);
+
+        if (raycastHit2D && raycastHit2D.transform.CompareTag("Enemigo"))
+        {
+            Transform hitTransform = raycastHit2D.transform;
+            Controller_Enemigo Enemigo = hitTransform.GetComponentInParent<Controller_Enemigo>();
+
+            string ParteImpactada = raycastHit2D.collider.gameObject.name;
+
+            if (ParteImpactada == "Cabeza")
+            {
+                Enemigo.TomarDaño(50);
+            }
+            else if (ParteImpactada == "Piernas")
+            {
+                Enemigo.TomarDaño(10);
+            }
+            else
+            {
+                Enemigo.TomarDaño(20);
+            }
+            Instantiate(EfectoImpacto, raycastHit2D.point, Quaternion.identity);
+        }
     }
 
     private void Animación()
@@ -73,11 +106,17 @@ public class Controller_Player : MonoBehaviour
         {
             Animator.SetLayerWeight(0, 0);
             Animator.SetLayerWeight(1, 1);
+
+            PuntoDisparo.localPosition = new Vector2(-1.8f, 1.1f);
+            PuntoDisparo.localRotation = new Quaternion(0,180,0,0);
         }
         else if (MoveInput.x > 0)
         {
             Animator.SetLayerWeight(0, 1);
             Animator.SetLayerWeight(1, 0);
+
+            PuntoDisparo.localPosition = new Vector2(1.7f, 1.1f);
+            PuntoDisparo.localRotation = new Quaternion(0, 0, 0, 0);
         }
 
         if (MoveInput != new Vector2(0, 0))
@@ -116,7 +155,7 @@ public class Controller_Player : MonoBehaviour
 
     private IEnumerator ShootWait()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(.3f);
         Disparando = false;
     }
 }

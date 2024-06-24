@@ -2,29 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Controller_Player : MonoBehaviour
 {
     public float Velocidad = 1f;
-    public float RangoDisparo = 10f;
+    public float RangoDisparo = 8f;
 
     private bool Apuntando = false;
     private bool Disparando = false;
     private bool SePuedeMover = true;
 
     private Rigidbody2D Rigidbody2D;
-    private SpriteRenderer SpriteRenderer;
     private Animator Animator;
     private Vector2 MoveInput;
 
+    public Transform Hitbox;
     public Transform PuntoDisparo;
     public GameObject EfectoImpacto;
 
     void Start()
     {
         Rigidbody2D = GetComponent<Rigidbody2D>();
-        Animator = GetComponent<Animator>();
-        SpriteRenderer = GetComponent<SpriteRenderer>();    
+        Animator = GetComponent<Animator>();   
     }
 
     void Update()
@@ -66,6 +66,7 @@ public class Controller_Player : MonoBehaviour
     {
         Movimiento();
         Animación();
+        Giro();
     }
 
     private void Movimiento()
@@ -100,23 +101,35 @@ public class Controller_Player : MonoBehaviour
         }
     }
 
+    private void Giro()
+    {
+        if (MoveInput.x < 0)
+        {
+            Hitbox.localPosition = new Vector2(0.1f, 0f);
+
+            PuntoDisparo.localPosition = new Vector2(-1.8f, 1.1f);
+            PuntoDisparo.localRotation = new Quaternion(0, 180, 0, 0);
+        }
+        else if (MoveInput.x > 0)
+        {
+            Hitbox.localPosition = new Vector2(-0.2f, 0f);
+
+            PuntoDisparo.localPosition = new Vector2(1.7f, 1.1f);
+            PuntoDisparo.localRotation = new Quaternion(0, 0, 0, 0);
+        }
+    }
+
     private void Animación()
     {
         if (MoveInput.x < 0)
         {
             Animator.SetLayerWeight(0, 0);
             Animator.SetLayerWeight(1, 1);
-
-            PuntoDisparo.localPosition = new Vector2(-1.8f, 1.1f);
-            PuntoDisparo.localRotation = new Quaternion(0,180,0,0);
         }
         else if (MoveInput.x > 0)
         {
             Animator.SetLayerWeight(0, 1);
             Animator.SetLayerWeight(1, 0);
-
-            PuntoDisparo.localPosition = new Vector2(1.7f, 1.1f);
-            PuntoDisparo.localRotation = new Quaternion(0, 0, 0, 0);
         }
 
         if (MoveInput != new Vector2(0, 0))

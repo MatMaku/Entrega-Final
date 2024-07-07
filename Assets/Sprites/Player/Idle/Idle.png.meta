@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 670352bbd376cb144bb136ec03210a2a
+guid: 5402e575addb1c040bf1242e1aefaff1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Character_0
+      name: Idle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -111,14 +111,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d33a738403b99514ea0aa35f855e4fa2
-      internalID: 256727207
+      spriteID: 17c18b1f7f67ef34fa6ac6720c44dd8f
+      internalID: -1953609911
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_1
+      name: Idle_1
       rect:
         serializedVersion: 2
         x: 128
@@ -132,14 +132,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e43f1a741d52a034d85f515e45eef267
-      internalID: -625507798
+      spriteID: f79fe90e812777b43869b4fad2fc52b8
+      internalID: -531535407
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_2
+      name: Idle_2
       rect:
         serializedVersion: 2
         x: 256
@@ -153,14 +153,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ea62233622523f49a187177a3055f2b
-      internalID: -1334641413
+      spriteID: 9628ae98dfb2ed94db3c0cb050e33207
+      internalID: -869792588
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_3
+      name: Idle_3
       rect:
         serializedVersion: 2
         x: 384
@@ -174,8 +174,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 646b55163d53a5e4087acab4305d3c9e
-      internalID: -1861875738
+      spriteID: 724ac9a9eea0e054f9175cbd468b7e7c
+      internalID: 1445117010
       vertices: []
       indices: 
       edges: []
@@ -191,10 +191,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Character_0: 256727207
-      Character_1: -625507798
-      Character_2: -1334641413
-      Character_3: -1861875738
+      Idle_0: -1953609911
+      Idle_1: -531535407
+      Idle_2: -869792588
+      Idle_3: 1445117010
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

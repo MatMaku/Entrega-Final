@@ -13,9 +13,9 @@ TagManager:
   - 
   - Water
   - UI
-  - Floor
+  - 
   - Player
-  - Pared
+  - 
   - 
   - 
   - 
@@ -42,4 +42,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Fondo
+    uniqueID: 1921273459
+    locked: 0
+  - name: Juego
+    uniqueID: 2526178277
     locked: 0

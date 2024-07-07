@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 07c1f10ac53915b43adf738b30e78de7
+guid: 1adfa49552076f14ba32ff5490453d2e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Character_0
+      name: Run_0
       rect:
         serializedVersion: 2
         x: 0
@@ -111,14 +111,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 129b144a77ba1cd46b1938bb1ce40298
-      internalID: 1709277205
+      spriteID: 05163222892750441ab765621a0ee117
+      internalID: -2001153132
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_1
+      name: Run_1
       rect:
         serializedVersion: 2
         x: 128
@@ -132,14 +132,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a792a78c9139163469a0f71b0ae474b9
-      internalID: 1807800261
+      spriteID: 395b4f25812d1de4b847d4e35a4477f9
+      internalID: -1961335123
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_2
+      name: Run_2
       rect:
         serializedVersion: 2
         x: 256
@@ -153,14 +153,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 718670c7da4ec7145bceddc53ac09fa5
-      internalID: 13248924
+      spriteID: accc27b0b504d0543aba8312c41182da
+      internalID: 831642466
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_3
+      name: Run_3
       rect:
         serializedVersion: 2
         x: 384
@@ -174,14 +174,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a4ea333e43bda7846887f364deb73365
-      internalID: -1579391115
+      spriteID: a345fcdaf32cec44b8f39e730c889eb6
+      internalID: -1569164742
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_4
+      name: Run_4
       rect:
         serializedVersion: 2
         x: 512
@@ -195,14 +195,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 93124d3e215e41747a2a7d3a9a7c056c
-      internalID: -1510346347
+      spriteID: bf0b747fab04019489ee70e8c79a96d0
+      internalID: -1602353927
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_5
+      name: Run_5
       rect:
         serializedVersion: 2
         x: 640
@@ -216,14 +216,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a51556870bf22d840a28b840a3d5d4f9
-      internalID: -1333752728
+      spriteID: 2dcf8bc0c94b27740af27ac2ba64c45b
+      internalID: -1151382739
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_6
+      name: Run_6
       rect:
         serializedVersion: 2
         x: 768
@@ -237,14 +237,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5bdbcb1106561af439bd61db487b4a8b
-      internalID: 2094605490
+      spriteID: d7389365ab6616649883b75dbeab94d2
+      internalID: 936417885
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_7
+      name: Run_7
       rect:
         serializedVersion: 2
         x: 896
@@ -258,8 +258,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cccb095dfd69b234f88cb92114a5969a
-      internalID: -275229751
+      spriteID: 9c5221e09171c6d4e866a765a9acc6df
+      internalID: -1514555888
       vertices: []
       indices: 
       edges: []
@@ -275,14 +275,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Character_0: 1709277205
-      Character_1: 1807800261
-      Character_2: 13248924
-      Character_3: -1579391115
-      Character_4: -1510346347
-      Character_5: -1333752728
-      Character_6: 2094605490
-      Character_7: -275229751
+      Run_0: -2001153132
+      Run_1: -1961335123
+      Run_2: 831642466
+      Run_3: -1569164742
+      Run_4: -1602353927
+      Run_5: -1151382739
+      Run_6: 936417885
+      Run_7: -1514555888
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

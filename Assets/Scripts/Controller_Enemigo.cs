@@ -1,118 +1,142 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class Controller_Enemigo : MonoBehaviour
+public class Controller_Enemigo : Controller_Character
 {
-    public float Vida = 100f;
-    public float TiempoDeRutina = 1;
-    public float VelocidadCaminar = 2;
-    public float VelocidadCorrer = 4;
     public GameObject Vision;
+    public Transform PuntoAtaque;
 
-    private int Rutina;
-    private int Dirección;
-    private float Cronometro = 0;
-    private bool Alertado;
+    public Collider2D mainCollider;
+    public Collider2D[] childColliders;
+
+    private bool Alertado = false;
+    private bool Dañado = false;
+    private bool Muerto = false;
+    private bool Atacando = false;
     private Transform Jugador;
 
-    private Rigidbody2D Rigidbody2D;
-    private Vector2 Move;
-
-    void Start()
-    {
-        Rigidbody2D = GetComponent<Rigidbody2D>();
-    }
-
-    public void Update()
-    {
-        Cronometro +=Time.deltaTime;
-
-        if (Cronometro >= TiempoDeRutina)
-        {
-            Cronometro = 0;
-            Rutina = Random.Range(0, 3);
-        }
-    }
     public void FixedUpdate()
     {
+        Movimiento(MoveInput);
         Comportamiento();
+        Animación();
         Giro();
     }
 
     public void Comportamiento()
     {
-        if (!Alertado) 
-        { 
-            switch (Rutina)
-            {
-                case 0:
-                    Move = new Vector2(0, 0);
-                    break;
-                case 1:
-                    Dirección = Random.Range(0, 2);
-                    Rutina++;
-                    break;
-                case 2:
-                    switch (Dirección)
-                    {
-                       case 0:
-                           Move = new Vector2(1, 0);
-                           break;
-                       case 1:
-                          Move = new Vector2(-1, 0);
-                          break;
-                    }
-                    break;
-            }
-
-            Rigidbody2D.MovePosition(Rigidbody2D.position + Move * VelocidadCaminar * Time.fixedDeltaTime);
-        }
-        else
+        if (Alertado && !Dañado && !Muerto && !Atacando) 
         {
             Vector2 playerPosition = new Vector2(Jugador.position.x, Jugador.position.y);
             float distancia = Vector2.Distance(Rigidbody2D.position, playerPosition);
 
             if (distancia > 2)
             {
-                Vector2 direccion = (playerPosition - Rigidbody2D.position).normalized;
-                Move = direccion * VelocidadCorrer * Time.fixedDeltaTime;
-                Rigidbody2D.MovePosition(Rigidbody2D.position + Move);
+                MoveInput = (playerPosition - Rigidbody2D.position).normalized;
+            }
+            else if (distancia <= 2 && !Atacando)
+            {
+                MoveInput = new Vector2(0,0);
+                Atacando = true;
+                StartCoroutine(Attack());
+                StartCoroutine(AttackCooldown());
+            }
+        }
+        else
+        {
+            MoveInput = new Vector2(0,0);
+        }
+    }
+
+    private void Golpe()
+    {
+        RaycastHit2D raycastHit2D = Physics2D.Raycast(PuntoAtaque.position, PuntoAtaque.right, 1);
+        if (raycastHit2D && raycastHit2D.transform.CompareTag("Player"))
+        {
+            Transform hitTransform = raycastHit2D.transform;
+            Controller_Player Player = hitTransform.GetComponentInParent<Controller_Player>();
+
+            Player.TomarDaño(20);
+
+            if (Player.Vida > 0)
+            {
+                Instantiate(EfectoImpacto, raycastHit2D.point, Quaternion.identity);
             }
         }
     }
 
     private void Giro()
     {
-        if (Move.x < 0)
+        if (MoveInput.x < 0)
         {
-            Vision.transform.localPosition = new Vector2(-2f, 0f);
+            this.gameObject.transform.localScale = new Vector3(-1,1,1);
+            PuntoAtaque.localRotation = new Quaternion(0, 180, 0, 0);
         }
-        else if (Move.x > 0)
+        else if (MoveInput.x > 0)
         {
-            Vision.transform.localPosition = new Vector2(4f, 0f);
+            this.gameObject.transform.localScale = new Vector3(1, 1, 1);
+            PuntoAtaque.localRotation = new Quaternion(0, 0, 0, 0);
         }
     }
 
-    public void TomarDaño(float Daño)
+    public override void Animación()
     {
-        Vida -= Daño;
-        if (Vida <=0)
+        if (MoveInput != new Vector2(0, 0))
         {
-            Destroy(gameObject);
+            Animator.SetBool("Corriendo", true);
         }
-        if (!Alertado)
+        else
         {
-            Rutina = 2;
-            if (Dirección == 0)
-            {
-                Dirección = 1;
-            }
-            else
-            {
+            Animator.SetBool("Corriendo", false);
+        }
 
-                Dirección = 0;
+        if (Atacando == true)
+        {
+            Animator.SetBool("Atacando", true);
+        }
+        else
+        {
+            Animator.SetBool("Atacando", false);
+        }
+
+        if (Dañado == true)
+        {
+            Animator.SetBool("Daño", true);
+        }
+        else
+        {
+            Animator.SetBool("Daño", false);
+        }
+
+        if (Muerto == true)
+        {
+            Animator.SetBool("Muerto", true);
+        }
+        else
+        {
+            Animator.SetBool("Muerto", false);
+        }
+    }
+
+    public override void TomarDaño(float Daño)
+    {
+        if (!Muerto)
+        {
+            Dañado = true;
+            base.TomarDaño(Daño);
+            if (Vida < 0)
+            {
+                Muerto = true;
+                mainCollider.enabled = false;
+                foreach (Collider2D collider in childColliders)
+                {
+                        collider.enabled = false;
+                }
+                StartCoroutine(DestroyEnemy());
             }
+            StartCoroutine(DamageCooldown());
         }
     }
 
@@ -125,13 +149,27 @@ public class Controller_Enemigo : MonoBehaviour
         }
     }
 
-    //private void OnTriggerExit2D(Collider2D collision)
-    //{
-    //    if (collision.CompareTag("Player"))
-    //    {
-    //        Jugador = null;
-    //        Alertado = false;
-    //    }
-    //}
+    private IEnumerator DestroyEnemy()
+    {
+        yield return new WaitForSeconds(10f);
+        Destroy(this.gameObject);
+    }
 
+    private IEnumerator DamageCooldown()
+    {
+        yield return new WaitForSeconds(0.3f);
+        Dañado = false;
+    }
+
+    private IEnumerator Attack()
+    {
+        yield return new WaitForSeconds(0.8f);
+        Golpe();
+    }
+
+    private IEnumerator AttackCooldown()
+    {
+        yield return new WaitForSeconds(1f);
+        Atacando = false;
+    }
 }

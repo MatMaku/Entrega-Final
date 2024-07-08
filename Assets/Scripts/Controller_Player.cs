@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
 public class Controller_Player : Controller_Character
@@ -10,6 +12,8 @@ public class Controller_Player : Controller_Character
     public int TipoArma = 0;
     public int Balas = 7;
     public int BalasGuardadas = 14;
+    public bool HachaConseguida = false;
+    public bool PistolaConseguida = false;
 
     private bool Apuntando = false;
     private bool Disparando = false;
@@ -19,11 +23,23 @@ public class Controller_Player : Controller_Character
     private bool SePuedeMover = true;
     private bool Cambiando = false;
 
+    private GameObject HachaEnContacto;
+    private GameObject MaletinEnContacto;
+    private GameObject BalasEnContacto;
+    private GameObject CuraEnContacto;
+
     public Transform Hitbox;
     public Transform PuntoDisparo;
+    public BarraDeVida barraDeVida;
+
+    public GameObject HachaCanvas;
+    public GameObject PistolaCanvas;
+    public TextMeshProUGUI BalasText;
 
     void Update()
     {
+        ActualizarUI();
+
         if (Input.GetButton("Fire2") && TipoArma != 0)
         {
             MoveInput = new Vector2(0, 0);
@@ -69,22 +85,47 @@ public class Controller_Player : Controller_Character
 
                 MoveInput = new Vector2(moveX, moveY).normalized;
 
-                if (Input.GetKeyDown(KeyCode.Tab) && !Cambiando)
+                if (Input.GetKeyDown(KeyCode.Tab) && !Cambiando && HachaConseguida && TipoArma < 2)
                 {
                     MoveInput = new Vector2(0, 0);
                     SePuedeMover = false;
                     Cambiando = true;
-                    if (TipoArma == 2)
-                    {
-                        TipoArma = 1;
-                    }
-                    else
-                    {
-                        TipoArma = 2;
-                    }
+                    TipoArma = 2;
+                    StartCoroutine(ChangeWait());
+                }
+                else if (Input.GetKeyDown(KeyCode.Tab) && !Cambiando && PistolaConseguida && TipoArma == 2)
+                {
+                    MoveInput = new Vector2(0, 0);
+                    SePuedeMover = false;
+                    Cambiando = true;
+                    TipoArma = 1;
                     StartCoroutine(ChangeWait());
                 }
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.E) && HachaEnContacto != null)
+        {
+            HachaConseguida = true;
+            Destroy(HachaEnContacto);
+            HachaEnContacto = null;
+        }
+        if (Input.GetKeyDown(KeyCode.E) && BalasEnContacto != null)
+        {
+            BalasGuardadas += 5;
+            Destroy(BalasEnContacto);
+            BalasEnContacto = null;
+        }
+        if (Input.GetKeyDown(KeyCode.E) && CuraEnContacto != null)
+        {
+            Vida += 40;
+            if (Vida > 100)
+            {
+                Vida = 100;
+            }
+            barraDeVida.CambiarVida(Vida);
+            Destroy(CuraEnContacto);
+            CuraEnContacto = null;
         }
     }
 
@@ -93,6 +134,21 @@ public class Controller_Player : Controller_Character
         Movimiento(MoveInput);
         Animación();
         Giro();
+    }
+
+    private void ActualizarUI()
+    {
+        if (TipoArma == 1)
+        {
+            HachaCanvas.SetActive(false);
+            PistolaCanvas.SetActive(true);
+            BalasText.text = Balas + "/" + BalasGuardadas;
+        }
+        else if (TipoArma == 2)
+        {
+            HachaCanvas.SetActive(true);
+            PistolaCanvas.SetActive(false);
+        }
     }
 
     private void Ataque()
@@ -125,8 +181,7 @@ public class Controller_Player : Controller_Character
         }
         else if (TipoArma == 2)
         {
-            StartCoroutine(Attack());
-            
+            StartCoroutine(Attack()); 
         }
         
     }
@@ -157,6 +212,7 @@ public class Controller_Player : Controller_Character
             Dañado = true;
             SePuedeMover = false;
             base.TomarDaño(Daño);
+            barraDeVida.CambiarVida(Vida);
             if (Vida <= 0)
             {
                 Muerto = true;
@@ -166,6 +222,46 @@ public class Controller_Player : Controller_Character
             {
                 StartCoroutine(DamageCooldown());
             }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Hacha"))
+        {
+            HachaEnContacto = other.gameObject;
+        }
+        if (other.CompareTag("Maletin"))
+        {
+            MaletinEnContacto = other.gameObject;
+        }
+        if (other.CompareTag("Balas"))
+        {
+            BalasEnContacto = other.gameObject;
+        }
+        if (other.CompareTag("Cura"))
+        {
+            CuraEnContacto = other.gameObject;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Hacha"))
+        {
+            HachaEnContacto = null;
+        }
+        if (other.CompareTag("Maletin"))
+        {
+            MaletinEnContacto = null;
+        }
+        if (other.CompareTag("Balas"))
+        {
+            BalasEnContacto = null;
+        }
+        if (other.CompareTag("Cura"))
+        {
+            CuraEnContacto = null;
         }
     }
 

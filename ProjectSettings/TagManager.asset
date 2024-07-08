@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Pared
   - Enemigo
+  - Hacha
+  - Maletin
+  - Balas
+  - Cura
   layers:
   - Default
   - TransparentFX

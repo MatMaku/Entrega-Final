@@ -33,6 +33,7 @@ public class Controller_Player : Controller_Character
     public Transform PuntoDisparo;
     public BarraDeVida barraDeVida;
 
+    public GameObject Puzzle;
     public GameObject HachaCanvas;
     public GameObject PistolaCanvas;
     public TextMeshProUGUI BalasText;
@@ -141,6 +142,11 @@ public class Controller_Player : Controller_Character
             Destroy(CuraEnContacto);
             CuraEnContacto = null;
         }
+        if (Input.GetKeyDown(KeyCode.E) && MaletinEnContacto != null)
+        {
+            Time.timeScale = 0f;
+            Puzzle.SetActive(true);
+        }
     }
 
     private void FixedUpdate()
@@ -158,6 +164,16 @@ public class Controller_Player : Controller_Character
         Player_Data.instance.BalasGuardadasData = BalasGuardadas;
         Player_Data.instance.HachaConseguidaData = HachaConseguida;
         Player_Data.instance.PistolaConseguidaData = PistolaConseguida;
+    }
+
+    private void ReiniciarData()
+    {
+        Player_Data.instance.VidaData = 100;
+        Player_Data.instance.TipoArmaData = 0;
+        Player_Data.instance.BalasData = 7;
+        Player_Data.instance.BalasGuardadasData = 0;
+        Player_Data.instance.HachaConseguidaData = false;
+        Player_Data.instance.PistolaConseguidaData = false;
     }
 
     private void ActualizarUI()
@@ -457,6 +473,7 @@ public class Controller_Player : Controller_Character
     private IEnumerator Death()
     {
         yield return new WaitForSeconds(2f);
+        ReiniciarData();
         SceneManager.LoadScene("Level 1");
     }
 

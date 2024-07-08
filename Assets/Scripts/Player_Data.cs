@@ -6,12 +6,12 @@ public class Player_Data : MonoBehaviour
 {
     public static Player_Data instance;
 
-    public float VidaData;
-    public int TipoArmaData;
-    public int BalasData;
-    public int BalasGuardadasData;
-    public bool HachaConseguidaData;
-    public bool PistolaConseguidaData;
+    public float VidaData = 100;
+    public int TipoArmaData = 0;
+    public int BalasData = 7;
+    public int BalasGuardadasData = 0;
+    public bool HachaConseguidaData = false;
+    public bool PistolaConseguidaData = false;
 
     private void Awake()
     {

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2624431734349002719}
   - component: {fileID: 4646732598695350801}
   - component: {fileID: 3256568641131491610}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemigo
   m_TagString: Enemigo
   m_Icon: {fileID: 0}
@@ -222,7 +222,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 192
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -339,7 +339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6199911123960098526}
   - component: {fileID: 2270329675302836200}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Piernas
   m_TagString: Enemigo
   m_Icon: {fileID: 0}
@@ -415,7 +415,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3798031092597981130}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PuntoAtaque
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -447,7 +447,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3053101935457450022}
   - component: {fileID: 7227229873165471424}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cabeza
   m_TagString: Enemigo
   m_Icon: {fileID: 0}

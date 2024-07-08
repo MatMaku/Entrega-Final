@@ -17,7 +17,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Enemigo
   - Player
   - 
   - 
@@ -52,4 +52,7 @@ TagManager:
     locked: 0
   - name: Juego
     uniqueID: 2526178277
+    locked: 0
+  - name: Puzzle
+    uniqueID: 1677365441
     locked: 0

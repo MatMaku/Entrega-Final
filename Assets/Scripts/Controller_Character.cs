@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Controller_Character : MonoBehaviour
 {
-    public float Vida = 100f;
+    public float Vida;
     public float Velocidad = 1f;
 
     public GameObject EfectoImpacto;

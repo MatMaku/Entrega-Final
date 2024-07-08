@@ -5,15 +5,16 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
+using UnityEngine.SceneManagement;
 
 public class Controller_Player : Controller_Character
 {
     public float RangoDisparo = 8f;
-    public int TipoArma = 0;
-    public int Balas = 7;
-    public int BalasGuardadas = 14;
-    public bool HachaConseguida = false;
-    public bool PistolaConseguida = false;
+    public int TipoArma;
+    public int Balas;
+    public int BalasGuardadas;
+    public bool HachaConseguida;
+    public bool PistolaConseguida;
 
     private bool Apuntando = false;
     private bool Disparando = false;
@@ -36,9 +37,22 @@ public class Controller_Player : Controller_Character
     public GameObject PistolaCanvas;
     public TextMeshProUGUI BalasText;
 
+    private void Awake()
+    {
+        Vida = Player_Data.instance.VidaData;
+        TipoArma = Player_Data.instance.TipoArmaData;
+        Balas = Player_Data.instance.BalasData;
+        BalasGuardadas = Player_Data.instance.BalasGuardadasData;
+        HachaConseguida = Player_Data.instance.HachaConseguidaData;
+        PistolaConseguida = Player_Data.instance.PistolaConseguidaData;
+
+        ActualizarUI();
+    }
+
     void Update()
     {
         ActualizarUI();
+        ActualizarData();
 
         if (Input.GetButton("Fire2") && TipoArma != 0)
         {
@@ -136,6 +150,16 @@ public class Controller_Player : Controller_Character
         Giro();
     }
 
+    private void ActualizarData()
+    {
+        Player_Data.instance.VidaData = Vida;
+        Player_Data.instance.TipoArmaData = TipoArma;
+        Player_Data.instance.BalasData = Balas;
+        Player_Data.instance.BalasGuardadasData = BalasGuardadas;
+        Player_Data.instance.HachaConseguidaData = HachaConseguida;
+        Player_Data.instance.PistolaConseguidaData = PistolaConseguida;
+    }
+
     private void ActualizarUI()
     {
         if (TipoArma == 1)
@@ -217,6 +241,7 @@ public class Controller_Player : Controller_Character
             {
                 Muerto = true;
                 Dañado = false;
+                StartCoroutine(Death());
             }
             else
             {
@@ -427,6 +452,12 @@ public class Controller_Player : Controller_Character
         yield return new WaitForSeconds(0.4f);
         Dañado = false;
         SePuedeMover = true;
+    }
+
+    private IEnumerator Death()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene("Level 1");
     }
 
     private IEnumerator Recarga()

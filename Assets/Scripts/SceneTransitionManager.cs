@@ -11,7 +11,7 @@ public class SceneTransitionManager : MonoBehaviour
 
     public bool Condition = false;
 
-    //public string sceneToLoad;
+    public string sceneToLoad;
 
     public void Update()
     {
@@ -33,7 +33,6 @@ public class SceneTransitionManager : MonoBehaviour
     private IEnumerator OnFadeComplete()
     {
         yield return new WaitForSeconds(1f);
-        //SceneManager.LoadScene(sceneToLoad);
-
+        SceneManager.LoadScene(sceneToLoad);
     }
 }

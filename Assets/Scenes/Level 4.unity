@@ -2641,6 +2641,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectivePanel: {fileID: 0}
   objectiveText: {fileID: 0}
+  Effect: {fileID: 0}
 --- !u!4 &1152247320
 Transform:
   m_ObjectHideFlags: 0
@@ -4184,6 +4185,10 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 491585362}
+    - target: {fileID: 5843725473576973305, guid: 2b09b68f42bfa8b4eb73e6bf9d63ac80, type: 3}
+      propertyPath: sceneToLoad
+      value: Level 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6513506622666295560, guid: 2b09b68f42bfa8b4eb73e6bf9d63ac80, type: 3}
       propertyPath: m_LocalPosition.x
       value: -23.21

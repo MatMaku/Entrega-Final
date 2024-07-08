@@ -12,11 +12,13 @@ public abstract class Controller_Character : MonoBehaviour
     protected Animator Animator;
     protected Rigidbody2D Rigidbody2D;
     protected Vector2 MoveInput;
+    protected AudioSource audioSource;
 
     void Start()
     {
         Rigidbody2D = GetComponent<Rigidbody2D>();
         Animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public virtual void TomarDaño(float Daño)

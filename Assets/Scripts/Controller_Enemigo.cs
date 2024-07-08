@@ -8,6 +8,9 @@ public class Controller_Enemigo : Controller_Character
     public GameObject Vision;
     public Transform PuntoAtaque;
 
+    public AudioClip EnemyRoar;
+    public AudioClip Swing;
+
     public Collider2D mainCollider;
     public Collider2D[] childColliders;
 
@@ -53,6 +56,7 @@ public class Controller_Enemigo : Controller_Character
     private void Golpe()
     {
         RaycastHit2D raycastHit2D = Physics2D.Raycast(PuntoAtaque.position, PuntoAtaque.right, 1);
+        audioSource.PlayOneShot(Swing);
         if (raycastHit2D && raycastHit2D.transform.CompareTag("Player"))
         {
             Transform hitTransform = raycastHit2D.transform;
@@ -144,6 +148,10 @@ public class Controller_Enemigo : Controller_Character
     {
         if (collision.CompareTag("Player"))
         {
+            if (Alertado == false)
+            {
+                audioSource.PlayOneShot(EnemyRoar);
+            }
             Jugador = collision.transform;
             Alertado = true;
         }

@@ -11,6 +11,14 @@ public class Controller_Objetive : MonoBehaviour
 
     private bool isObjectiveShown = false;
 
+    private AudioSource audioSource;
+    public AudioClip Effect;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     void Update()
     {
         if (isObjectiveShown && Input.anyKeyDown)
@@ -25,6 +33,7 @@ public class Controller_Objetive : MonoBehaviour
         objectivePanel.SetActive(true);
         Time.timeScale = 0f;
         isObjectiveShown = true;
+        audioSource.PlayOneShot(Effect);
     }
 
     private void HideObjective()

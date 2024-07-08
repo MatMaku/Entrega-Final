@@ -29,6 +29,12 @@ public class Controller_Player : Controller_Character
     private GameObject BalasEnContacto;
     private GameObject CuraEnContacto;
 
+    public AudioClip Disparo;
+    public AudioClip Reload;
+    public AudioClip Pickup;
+    public AudioClip Swing;
+    public AudioClip Empty;
+
     public Transform Hitbox;
     public Transform PuntoDisparo;
     public BarraDeVida barraDeVida;
@@ -61,25 +67,31 @@ public class Controller_Player : Controller_Character
             Apuntando = true;
             SePuedeMover = false;
 
-            if (Input.GetButtonDown("Fire1") && !Disparando && Balas > 0)
+            if (Input.GetButtonDown("Fire1") && !Disparando)
             {
-                Disparando = true;
-                Ataque();
-                StartCoroutine(AttackWait());
-                if (TipoArma == 1)
+                if (TipoArma == 2)
                 {
+                    Disparando = true;
+                    Ataque();
+                    StartCoroutine(AttackWait());
+                }
+                else if (TipoArma == 1 && Balas > 0)
+                {
+                    Disparando = true;
+                    Ataque();
                     Balas--;
                     StartCoroutine(ShootWait());
                 }
-                else if (TipoArma == 2)
+                else if (TipoArma == 1 && Balas <= 0)
                 {
-                    StartCoroutine(AttackWait());
+                    audioSource.PlayOneShot(Empty);
                 }
             }
 
             if (Input.GetKeyDown(KeyCode.R) && BalasGuardadas > 0 && Balas < 7 && !Recargando && !Disparando && TipoArma == 1)
             {
                 Recargando = true;
+                audioSource.PlayOneShot(Reload);
                 StartCoroutine(Recarga());
             }
         }
@@ -124,12 +136,14 @@ public class Controller_Player : Controller_Character
             HachaConseguida = true;
             Destroy(HachaEnContacto);
             HachaEnContacto = null;
+            audioSource.PlayOneShot(Pickup);
         }
         if (Input.GetKeyDown(KeyCode.E) && BalasEnContacto != null)
         {
             BalasGuardadas += 5;
             Destroy(BalasEnContacto);
             BalasEnContacto = null;
+            audioSource.PlayOneShot(Pickup);
         }
         if (Input.GetKeyDown(KeyCode.E) && CuraEnContacto != null)
         {
@@ -141,11 +155,13 @@ public class Controller_Player : Controller_Character
             barraDeVida.CambiarVida(Vida);
             Destroy(CuraEnContacto);
             CuraEnContacto = null;
+            audioSource.PlayOneShot(Pickup);
         }
         if (Input.GetKeyDown(KeyCode.E) && MaletinEnContacto != null)
         {
             Time.timeScale = 0f;
             Puzzle.SetActive(true);
+            audioSource.PlayOneShot(Pickup);
         }
     }
 
@@ -196,6 +212,7 @@ public class Controller_Player : Controller_Character
         if (TipoArma == 1)
         {
             RaycastHit2D raycastHit2D = Physics2D.Raycast(PuntoDisparo.position, PuntoDisparo.right, RangoDisparo);
+            audioSource.PlayOneShot(Disparo);
 
             if (raycastHit2D && raycastHit2D.transform.CompareTag("Enemigo"))
             {
@@ -221,7 +238,8 @@ public class Controller_Player : Controller_Character
         }
         else if (TipoArma == 2)
         {
-            StartCoroutine(Attack()); 
+            StartCoroutine(Attack());
+            audioSource.PlayOneShot(Swing);
         }
         
     }
@@ -368,10 +386,7 @@ public class Controller_Player : Controller_Character
         if (Disparando)
         {
             Animator.SetBool("Disparando", true);
-        }
-        else
-        {
-            Animator.SetBool("Disparando", false);
+            StartCoroutine(ShootAnimationDelay());
         }
 
         if (Dañado == true)
@@ -386,6 +401,7 @@ public class Controller_Player : Controller_Character
         if (Recargando == true)
         {
             Animator.SetBool("Recargando", true);
+            
         }
         else
         {
@@ -420,6 +436,12 @@ public class Controller_Player : Controller_Character
                 Animator.SetLayerWeight(i, 0);
             }
         }
+    }
+
+    private IEnumerator ShootAnimationDelay()
+    {
+        yield return new WaitForSeconds(.1f);
+        Animator.SetBool("Disparando", false);
     }
 
     private IEnumerator AimWait()

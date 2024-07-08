@@ -3215,14 +3215,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 491585362}
     - target: {fileID: 5843725473576973305, guid: 2b09b68f42bfa8b4eb73e6bf9d63ac80, type: 3}
-      propertyPath: Condition
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5843725473576973305, guid: 2b09b68f42bfa8b4eb73e6bf9d63ac80, type: 3}
-      propertyPath: sceneToLoad
-      value: Level 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5843725473576973305, guid: 2b09b68f42bfa8b4eb73e6bf9d63ac80, type: 3}
       propertyPath: ConditionObj
       value: 
       objectReference: {fileID: 1532809864}
@@ -3481,10 +3473,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1333361446}
     - target: {fileID: 8177576591157363122, guid: d626c891d8387fe48abee7bb03493af2, type: 3}
-      propertyPath: TipoArma
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8177576591157363122, guid: d626c891d8387fe48abee7bb03493af2, type: 3}
       propertyPath: BalasText
       value: 
       objectReference: {fileID: 991434258}
@@ -3500,10 +3488,6 @@ PrefabInstance:
       propertyPath: PistolaCanvas
       value: 
       objectReference: {fileID: 1873339128}
-    - target: {fileID: 8177576591157363122, guid: d626c891d8387fe48abee7bb03493af2, type: 3}
-      propertyPath: HachaConseguida
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8295000414775271803, guid: d626c891d8387fe48abee7bb03493af2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.76

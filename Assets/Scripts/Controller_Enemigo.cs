@@ -177,7 +177,7 @@ public class Controller_Enemigo : Controller_Character
 
     private IEnumerator AttackCooldown()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         Atacando = false;
     }
 }

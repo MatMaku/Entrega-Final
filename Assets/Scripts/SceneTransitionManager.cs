@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class SceneTransitionManager : MonoBehaviour
 {
@@ -18,6 +19,15 @@ public class SceneTransitionManager : MonoBehaviour
         if (ConditionObj == null)
         {
             Condition = true;
+        }
+        else if (ConditionObj.CompareTag("Enemigo"))
+        {
+            Controller_Enemigo Enemigo = ConditionObj.GetComponent<Controller_Enemigo>();
+
+            if (Enemigo.Vida <= 0) 
+            {
+                Condition = true;
+            }
         }
     }
 

@@ -22,7 +22,7 @@ public class Controller_Puzzle : MonoBehaviour
             Imagenes[4].rotation.z == 0 &&
             Imagenes[5].rotation.z == 0)
         {
-            Player.PistolaConseguida = true;
+            Player.EscopetaConseguida = true;
             Time.timeScale = 1f;
             objectiveManager.ShowObjective(Texto);
             Destroy(Maletin);

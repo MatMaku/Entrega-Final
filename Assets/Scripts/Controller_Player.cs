@@ -13,8 +13,11 @@ public class Controller_Player : Controller_Character
     public int TipoArma;
     public int Balas;
     public int BalasGuardadas;
+    public int BalasE;
+    public int BalasEGuardadas;
     public bool HachaConseguida;
     public bool PistolaConseguida;
+    public bool EscopetaConseguida;
 
     private bool Apuntando = false;
     private bool Disparando = false;
@@ -30,6 +33,7 @@ public class Controller_Player : Controller_Character
     private GameObject CuraEnContacto;
 
     public AudioClip Disparo;
+    public AudioClip DisparoE;
     public AudioClip Reload;
     public AudioClip Pickup;
     public AudioClip Swing;
@@ -42,7 +46,9 @@ public class Controller_Player : Controller_Character
     public GameObject Puzzle;
     public GameObject HachaCanvas;
     public GameObject PistolaCanvas;
+    public GameObject EscopetaCanvas;
     public TextMeshProUGUI BalasText;
+    public TextMeshProUGUI BalasEText;
 
     private void Awake()
     {
@@ -50,10 +56,14 @@ public class Controller_Player : Controller_Character
         TipoArma = Player_Data.instance.TipoArmaData;
         Balas = Player_Data.instance.BalasData;
         BalasGuardadas = Player_Data.instance.BalasGuardadasData;
+        BalasE = Player_Data.instance.BalasEData;
+        BalasEGuardadas = Player_Data.instance.BalasEGuardadasData;
         HachaConseguida = Player_Data.instance.HachaConseguidaData;
         PistolaConseguida = Player_Data.instance.PistolaConseguidaData;
+        EscopetaConseguida = Player_Data.instance.EscopetaConseguidaData;
 
         ActualizarUI();
+        StartCoroutine(Iniciar());
     }
 
     void Update()
@@ -61,7 +71,7 @@ public class Controller_Player : Controller_Character
         ActualizarUI();
         ActualizarData();
 
-        if (Input.GetButton("Fire2") && TipoArma != 0)
+        if (Input.GetButton("Fire2") && TipoArma == 1 || Input.GetButton("Fire2") && TipoArma == 2)
         {
             MoveInput = new Vector2(0, 0);
             Apuntando = true;
@@ -69,31 +79,69 @@ public class Controller_Player : Controller_Character
 
             if (Input.GetButtonDown("Fire1") && !Disparando)
             {
-                if (TipoArma == 2)
+                switch (TipoArma)
                 {
-                    Disparando = true;
-                    Ataque();
-                    StartCoroutine(AttackWait());
-                }
-                else if (TipoArma == 1 && Balas > 0)
-                {
-                    Disparando = true;
-                    Ataque();
-                    Balas--;
-                    StartCoroutine(ShootWait());
-                }
-                else if (TipoArma == 1 && Balas <= 0)
-                {
-                    audioSource.PlayOneShot(Empty);
+                    case 1:
+                        if (Balas > 0)
+                        {
+                            Disparando = true;
+                            Ataque();
+                            Balas--;
+                            StartCoroutine(ShootWait());
+                            StartCoroutine(ShootAnimationDelay());
+                        }
+                        else
+                        {
+                            audioSource.PlayOneShot(Empty);
+                        }
+                        break;
+                    case 2:
+                        if (BalasE > 0)
+                        {
+                            Disparando = true;
+                            Ataque();
+                            BalasE--;
+                            StartCoroutine(ShootWait());
+                            StartCoroutine(ShootAnimationDelay());
+                        }
+                        else
+                        {
+                            audioSource.PlayOneShot(Empty);
+                        }
+                        break;
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.R) && BalasGuardadas > 0 && Balas < 7 && !Recargando && !Disparando && TipoArma == 1)
+            if (Input.GetKeyDown(KeyCode.R) && !Recargando && !Disparando)
             {
-                Recargando = true;
-                audioSource.PlayOneShot(Reload);
-                StartCoroutine(Recarga());
+                switch (TipoArma)
+                {
+                    case 1:
+                        if (BalasGuardadas > 0 && Balas < 7)
+                        {
+                            Recargando = true;
+                            audioSource.PlayOneShot(Reload);
+                            StartCoroutine(Recarga());
+                        }
+                        break;
+                    case 2:
+                        if (BalasEGuardadas > 0 && BalasE < 2)
+                        {
+                            Recargando = true;
+                            audioSource.PlayOneShot(Reload);
+                            StartCoroutine(Recarga());
+                        }
+                        break;
+                }
             }
+        }
+        else if (Input.GetButtonDown("Fire1") && TipoArma == 0 && !Disparando)
+        {
+            MoveInput = new Vector2(0, 0);
+            SePuedeMover = false;
+            Disparando = true;
+            StartCoroutine(ShootAnimationDelay());
+            Ataque();
         }
         else if (!Recargando)
         {
@@ -112,21 +160,65 @@ public class Controller_Player : Controller_Character
 
                 MoveInput = new Vector2(moveX, moveY).normalized;
 
-                if (Input.GetKeyDown(KeyCode.Tab) && !Cambiando && HachaConseguida && TipoArma < 2)
+                if (Input.GetKeyDown(KeyCode.Tab) && !Cambiando)
                 {
-                    MoveInput = new Vector2(0, 0);
-                    SePuedeMover = false;
-                    Cambiando = true;
-                    TipoArma = 2;
-                    StartCoroutine(ChangeWait());
-                }
-                else if (Input.GetKeyDown(KeyCode.Tab) && !Cambiando && PistolaConseguida && TipoArma == 2)
-                {
-                    MoveInput = new Vector2(0, 0);
-                    SePuedeMover = false;
-                    Cambiando = true;
-                    TipoArma = 1;
-                    StartCoroutine(ChangeWait());
+                    switch (TipoArma)
+                    {
+                        case 0:
+                            if (PistolaConseguida)
+                            {
+                                MoveInput = new Vector2(0, 0);
+                                SePuedeMover = false;
+                                Cambiando = true;
+                                TipoArma = 1;
+                                StartCoroutine(ChangeWait());
+                            }
+                            else if (EscopetaConseguida)
+                            {
+                                MoveInput = new Vector2(0, 0);
+                                SePuedeMover = false;
+                                Cambiando = true;
+                                TipoArma = 2;
+                                StartCoroutine(ChangeWait());
+                            }
+                            break;
+                        case 1:
+                            if (EscopetaConseguida)
+                            {
+                                MoveInput = new Vector2(0, 0);
+                                SePuedeMover = false;
+                                Cambiando = true;
+                                TipoArma = 2;
+                                StartCoroutine(ChangeWait());
+                            }
+                            else if (HachaConseguida)
+                            {
+                                MoveInput = new Vector2(0, 0);
+                                SePuedeMover = false;
+                                Cambiando = true;
+                                TipoArma = 0;
+                                StartCoroutine(ChangeWait());
+                            }
+                            break;
+                        case 2:
+                            if (HachaConseguida)
+                            {
+                                MoveInput = new Vector2(0, 0);
+                                SePuedeMover = false;
+                                Cambiando = true;
+                                TipoArma = 0;
+                                StartCoroutine(ChangeWait());
+                            }
+                            else if (PistolaConseguida)
+                            {
+                                MoveInput = new Vector2(0, 0);
+                                SePuedeMover = false;
+                                Cambiando = true;
+                                TipoArma = 1;
+                                StartCoroutine(ChangeWait());
+                            }
+                            break;
+                    }
                 }
             }
         }
@@ -178,8 +270,11 @@ public class Controller_Player : Controller_Character
         Player_Data.instance.TipoArmaData = TipoArma;
         Player_Data.instance.BalasData = Balas;
         Player_Data.instance.BalasGuardadasData = BalasGuardadas;
+        Player_Data.instance.BalasEData = BalasE;
+        Player_Data.instance.BalasEGuardadasData = BalasEGuardadas;
         Player_Data.instance.HachaConseguidaData = HachaConseguida;
         Player_Data.instance.PistolaConseguidaData = PistolaConseguida;
+        Player_Data.instance.EscopetaConseguidaData = EscopetaConseguida;
     }
 
     private void ReiniciarData()
@@ -188,60 +283,98 @@ public class Controller_Player : Controller_Character
         Player_Data.instance.TipoArmaData = 0;
         Player_Data.instance.BalasData = 7;
         Player_Data.instance.BalasGuardadasData = 0;
+        Player_Data.instance.BalasEData = 2;
+        Player_Data.instance.BalasEGuardadasData = 6;
         Player_Data.instance.HachaConseguidaData = false;
-        Player_Data.instance.PistolaConseguidaData = false;
+        Player_Data.instance.PistolaConseguidaData = true;
+        Player_Data.instance.EscopetaConseguidaData = true;
     }
 
     private void ActualizarUI()
     {
-        if (TipoArma == 1)
+        switch (TipoArma)
         {
-            HachaCanvas.SetActive(false);
-            PistolaCanvas.SetActive(true);
-            BalasText.text = Balas + "/" + BalasGuardadas;
-        }
-        else if (TipoArma == 2)
-        {
-            HachaCanvas.SetActive(true);
-            PistolaCanvas.SetActive(false);
+            case 0:
+                HachaCanvas.SetActive(true);
+                PistolaCanvas.SetActive(false);
+                EscopetaCanvas.SetActive(false);
+                break;
+            case 1:
+                PistolaCanvas.SetActive(true);
+                HachaCanvas.SetActive(false);
+                EscopetaCanvas.SetActive(false);
+                BalasText.text = Balas + "/" + BalasGuardadas;
+                break;
+            case 2:
+                EscopetaCanvas.SetActive(true);
+                PistolaCanvas.SetActive(false);
+                HachaCanvas.SetActive(false);
+                BalasEText.text = BalasE + "/" + BalasEGuardadas;
+                break;
         }
     }
 
     private void Ataque()
     {
-        if (TipoArma == 1)
+        switch (TipoArma)
         {
-            RaycastHit2D raycastHit2D = Physics2D.Raycast(PuntoDisparo.position, PuntoDisparo.right, RangoDisparo);
-            audioSource.PlayOneShot(Disparo);
+            case 0:
+                StartCoroutine(Attack());
+                audioSource.PlayOneShot(Swing);
+                break;
+            case 1:
+                RaycastHit2D raycastHit2D = Physics2D.Raycast(PuntoDisparo.position, PuntoDisparo.right, RangoDisparo);
+                audioSource.PlayOneShot(Disparo);
 
-            if (raycastHit2D && raycastHit2D.transform.CompareTag("Enemigo"))
-            {
-                Transform hitTransform = raycastHit2D.transform;
-                Controller_Enemigo Enemigo = hitTransform.GetComponentInParent<Controller_Enemigo>();
+                if (raycastHit2D && raycastHit2D.transform.CompareTag("Enemigo"))
+                {
+                    Transform hitTransform = raycastHit2D.transform;
+                    Controller_Enemigo Enemigo = hitTransform.GetComponentInParent<Controller_Enemigo>();
 
-                string ParteImpactada = raycastHit2D.collider.gameObject.name;
+                    string ParteImpactada = raycastHit2D.collider.gameObject.name;
 
-                if (ParteImpactada == "Cabeza")
-                {
-                    Enemigo.TomarDaño(30);
+                    if (ParteImpactada == "Cabeza")
+                    {
+                        Enemigo.TomarDaño(30);
+                    }
+                    else if (ParteImpactada == "Piernas")
+                    {
+                        Enemigo.TomarDaño(10);
+                    }
+                    else
+                    {
+                        Enemigo.TomarDaño(20);
+                    }
+                    Instantiate(EfectoImpacto, raycastHit2D.point, Quaternion.identity);
                 }
-                else if (ParteImpactada == "Piernas")
+                break;
+            case 2:
+                RaycastHit2D raycastHit2D2 = Physics2D.Raycast(PuntoDisparo.position, PuntoDisparo.right, RangoDisparo);
+                audioSource.PlayOneShot(DisparoE);
+
+                if (raycastHit2D2 && raycastHit2D2.transform.CompareTag("Enemigo"))
                 {
-                    Enemigo.TomarDaño(10);
+                    Transform hitTransform = raycastHit2D2.transform;
+                    Controller_Enemigo Enemigo = hitTransform.GetComponentInParent<Controller_Enemigo>();
+
+                    string ParteImpactada = raycastHit2D2.collider.gameObject.name;
+
+                    if (ParteImpactada == "Cabeza")
+                    {
+                        Enemigo.TomarDaño(100);
+                    }
+                    else if (ParteImpactada == "Piernas")
+                    {
+                        Enemigo.TomarDaño(30);
+                    }
+                    else
+                    {
+                        Enemigo.TomarDaño(50);
+                    }
+                    Instantiate(EfectoImpacto, raycastHit2D2.point, Quaternion.identity);
                 }
-                else
-                {
-                    Enemigo.TomarDaño(20);
-                }
-                Instantiate(EfectoImpacto, raycastHit2D.point, Quaternion.identity);
-            }
+                break;
         }
-        else if (TipoArma == 2)
-        {
-            StartCoroutine(Attack());
-            audioSource.PlayOneShot(Swing);
-        }
-        
     }
 
     private void Giro()
@@ -326,43 +459,15 @@ public class Controller_Player : Controller_Character
 
     public override void Animación()
     {
-
         Animator.SetInteger("TipoArma", TipoArma);
 
-        switch (TipoArma)
+        if (MoveInput.x < 0)
         {
-            case 0:
-                if (MoveInput.x < 0)
-                {
-                    CambioDeCapa(1);
-                }
-                else if (MoveInput.x > 0)
-                {
-                    CambioDeCapa(0);
-                }
-                break;
-
-            case 1:
-                if (MoveInput.x < 0)
-                {
-                    CambioDeCapa(3);
-                }
-                else if (MoveInput.x > 0)
-                {
-                    CambioDeCapa(2);
-                }
-                break;
-
-            case 2:
-                if (MoveInput.x < 0)
-                {
-                    CambioDeCapa(5);
-                }
-                else if (MoveInput.x > 0)
-                {
-                    CambioDeCapa(4);
-                }
-                break;
+            spriteRenderer.flipX = true;
+        }
+        else if (MoveInput.x > 0)
+        {
+            spriteRenderer.flipX = false;
         }
 
         if (MoveInput != new Vector2(0, 0))
@@ -383,21 +488,6 @@ public class Controller_Player : Controller_Character
             Animator.SetBool("Apuntando", false);
         }
 
-        if (Disparando)
-        {
-            Animator.SetBool("Disparando", true);
-            StartCoroutine(ShootAnimationDelay());
-        }
-
-        if (Dañado == true)
-        {
-            Animator.SetBool("Daño", true);
-        }
-        else
-        {
-            Animator.SetBool("Daño", false);
-        }
-
         if (Recargando == true)
         {
             Animator.SetBool("Recargando", true);
@@ -415,6 +505,15 @@ public class Controller_Player : Controller_Character
         else
         {
             Animator.SetBool("Cambiando", false);
+        }
+
+        if (Dañado == true)
+        {
+            Animator.SetBool("Daño", true);
+        }
+        else
+        {
+            Animator.SetBool("Daño", false);
         }
 
         if (Muerto == true)
@@ -440,7 +539,8 @@ public class Controller_Player : Controller_Character
 
     private IEnumerator ShootAnimationDelay()
     {
-        yield return new WaitForSeconds(.1f);
+        Animator.SetBool("Disparando", true);
+        yield return new WaitForSeconds(.15f);
         Animator.SetBool("Disparando", false);
     }
 
@@ -456,15 +556,9 @@ public class Controller_Player : Controller_Character
         Disparando = false;
     }
 
-    private IEnumerator AttackWait()
-    {
-        yield return new WaitForSeconds(.4f);
-        Disparando = false;
-    }
-
     private IEnumerator Attack()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.6f);
         RaycastHit2D raycastHit2D = Physics2D.Raycast(PuntoDisparo.position, PuntoDisparo.right, 1);
 
         if (raycastHit2D && raycastHit2D.transform.CompareTag("Enemigo"))
@@ -476,11 +570,26 @@ public class Controller_Player : Controller_Character
 
             Instantiate(EfectoImpacto, raycastHit2D.point, Quaternion.identity);
         }
+
+        SePuedeMover = true;
+        Disparando = false;
     }
 
     private IEnumerator ChangeWait()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.8f);
+        switch (TipoArma)
+        {
+            case 0:
+                CambioDeCapa(0);
+                break;
+            case 1:
+                CambioDeCapa(1);
+                break;
+            case 2:
+                CambioDeCapa(2);
+                break;
+        }
         SePuedeMover = true;
         Cambiando = false;
     }
@@ -502,11 +611,42 @@ public class Controller_Player : Controller_Character
     private IEnumerator Recarga()
     {
         yield return new WaitForSeconds(0.8f);
-        while (Balas < 7 && BalasGuardadas > 0)
+        switch (TipoArma)
         {
-            Balas++;
-            BalasGuardadas--;
+            case 1:
+                while (Balas < 7 && BalasGuardadas > 0)
+                {
+                    Balas++;
+                    BalasGuardadas--;
+                }
+                Recargando = false;
+                break;
+            case 2:
+                while (BalasE < 2 && BalasEGuardadas > 0)
+                {
+                    BalasE++;
+                    BalasEGuardadas--;
+                }
+                Recargando = false;
+                break;
         }
-        Recargando = false;
+        
+    }
+
+    private IEnumerator Iniciar()
+    {
+        yield return new WaitForSeconds(.1f);
+        switch (TipoArma)
+        {
+            case 0:
+                CambioDeCapa(0);
+                break;
+            case 1:
+                CambioDeCapa(1);
+                break;
+            case 2:
+                CambioDeCapa(2);
+                break;
+        }
     }
 }

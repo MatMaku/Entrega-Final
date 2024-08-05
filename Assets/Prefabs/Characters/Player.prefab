@@ -89,9 +89,13 @@ MonoBehaviour:
   TipoArma: 2
   Balas: 7
   BalasGuardadas: 0
-  HachaConseguida: 1
-  PistolaConseguida: 0
+  BalasE: 0
+  BalasEGuardadas: 0
+  HachaConseguida: 0
+  PistolaConseguida: 1
+  EscopetaConseguida: 0
   Disparo: {fileID: 8300000, guid: 76485fd9eaaafc8449eb6442ae22dc2c, type: 3}
+  DisparoE: {fileID: 8300000, guid: 3551a4d4528cc864fa96abd849d04d04, type: 3}
   Reload: {fileID: 8300000, guid: 3f9122ae323aaeb44b15dda1faafb13a, type: 3}
   Pickup: {fileID: 8300000, guid: 5965503b3d4cc294b90870e51e00d65f, type: 3}
   Swing: {fileID: 8300000, guid: 5bc38d81a7e792f4f8ceadf9ae239dc3, type: 3}
@@ -102,7 +106,9 @@ MonoBehaviour:
   Puzzle: {fileID: 0}
   HachaCanvas: {fileID: 0}
   PistolaCanvas: {fileID: 0}
+  EscopetaCanvas: {fileID: 0}
   BalasText: {fileID: 0}
+  BalasEText: {fileID: 0}
 --- !u!61 &2516287448003437829
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -260,7 +266,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
